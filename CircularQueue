@@ -1,0 +1,144 @@
+/*------------------------
+ CircularQueue
+ Sujan		
+------------------------*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Struct for Queue Node
+typedef struct QueueType {
+    int Data;
+    struct QueueType *Next;
+} CIRQUEUENODE;
+
+// Global Variables
+CIRQUEUENODE *Front, *Rear;
+
+// Prototypes
+void InitQueue();
+void EnQueue(int Num);
+void DisplayQueue();
+void Menu(int *Choice);
+int Dequeue();
+
+int main() {
+    int Choice, Num;
+
+    InitQueue();
+
+    while (1) {
+        Menu(&Choice);
+
+        switch (Choice) {
+            case 1:
+                printf("Enter the Number:\n");
+                scanf("%d", &Num);
+                EnQueue(Num);
+                break;
+            case 2:
+                printf("Displaying the Queue:\n");
+                DisplayQueue();
+                break;
+            case 3:
+                Num = Dequeue();
+                if (Num != -1) {
+                    printf("The number %d is deleted.\n", Num);
+                } else {
+                    printf("The queue is empty.\n");
+                }
+                break;
+            case 4:
+                exit(0);
+            default:
+                printf("Invalid Choice.\n");
+                break;
+        }
+
+        printf("\nPress Enter to continue...\n");
+        getchar(); // Clear input buffer
+        getchar(); // Pause for Enter key
+    }
+}
+
+// Initialize Queue
+void InitQueue() {
+    Front = Rear = NULL;
+}
+
+// Enqueue a Number
+void EnQueue(int Num) {
+    CIRQUEUENODE *Node = (CIRQUEUENODE *)malloc(sizeof(CIRQUEUENODE));
+    Node->Data = Num;
+    Node->Next = NULL;
+
+    // Case 1: Queue is empty
+    if (Rear == NULL) {
+        Front = Rear = Node;
+        Rear->Next = Front; // Circular link
+        return;
+    }
+
+    // Case 2: General
+    Rear->Next = Node;
+    Rear = Node;
+    Rear->Next = Front; // Maintain circular link
+}
+
+// Dequeue the Front Number
+int Dequeue() {
+    CIRQUEUENODE *Temp;
+    int Num;
+
+    // Case 1: Queue is empty
+    if (Front == NULL) {
+        printf("Queue is empty.\n");
+        return -1;
+    }
+
+    // Case 2: Only one element
+    if (Front == Rear) {
+        Num = Front->Data;
+        free(Front);
+        Front = Rear = NULL;
+        return Num;
+    }
+
+    // Case 3: General
+    Temp = Front;
+    Num = Temp->Data;
+    Front = Front->Next;
+    Rear->Next = Front; // Maintain circular link
+    free(Temp);
+    return Num;
+}
+
+// Display Queue
+void DisplayQueue() {
+    CIRQUEUENODE *Curr;
+
+    // Case 1: Queue is empty
+    if (Front == NULL) {
+        printf("Queue is empty.\n");
+        return;
+    }
+
+    // Case 2: Print elements
+    Curr = Front;
+    do {
+        printf("%d ", Curr->Data);
+        Curr = Curr->Next;
+    } while (Curr != Front);
+    printf("\n");
+}
+
+// Display Menu
+void Menu(int *Choice) {
+    system("cls");
+    printf("\t\tCIRCULAR QUEUE\n\tLinked List Implementation\n");
+    printf("Menu:\n");
+    printf("1. Enqueue a Number\n2. Display the Queue\n3. Dequeue a Number\n4. Exit\n");
+    printf("\nEnter Your Choice: ");
+    scanf("%d", Choice);
+    printf("\n");
+}
