@@ -20,11 +20,7 @@ class Student{
         Sub3=s3;
 
         // Checking if student has passed in all 3 subjects
-        if(Sub1<=50 || Sub2<=50 || Sub3<=50){
-            Total=0;
-        } else {
-            Total=Sub1+Sub2+Sub3;
-        }
+        Total=(Sub1<50 || Sub2<50 || Sub3<50)?0:Sub1+Sub2+Sub3;
     }
 
     void displayDetails(){
@@ -32,7 +28,7 @@ class Student{
     }
 
 }
-class FirstYear extends Student {
+class FirstYear {
     String Class, Mentor;
     int StudCount;
     Student students[];
@@ -54,9 +50,7 @@ class FirstYear extends Student {
         Student top= students[0];
 
         for (int i = 1; i < StudCount; i++) {
-            if (students[i].Total>top.Total){
-                top=students[i];
-            }
+            if (students[i].Total>top.Total) top=students[i];
         }
 
         return top;
