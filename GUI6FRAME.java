@@ -1,15 +1,3 @@
-/*
- * Question 6:
- * Program which creates a frame with two buttons father and mother.
- * When we click the father button, the name of the father,
- * his age and designation must appear.
- * When we click the mother button, similar details of the mother also appear.
- *
- *
- * 242BCA16
- * Sujan
- */
-
 import java.awt.*;
 import java.awt.event.*;
 
